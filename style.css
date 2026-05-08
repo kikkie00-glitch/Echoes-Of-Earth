@@ -1,8 +1,481 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+:root {
+  --black: #09090a;
+  --deep: #0d0d0f;
+  --surface: #131316;
+  --raised: #1c1c22;
+
+  --green: #5a9468;
+  --green-lt: #7dbf8e;
+  --green-dim: #253325;
+
+  --fog: #8a9490;
+  --muted: #464c48;
+  --pale: #dde4dd;
+  --off-white: #f0f4f0;
+
+  --toxic: #5a9468;
+
+  --glow-sm: 0 0 10px rgba(90,148,104,0.2);
+  --glow-md: 0 0 24px rgba(90,148,104,0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--pale);
+  font-family: 'Barlow', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* NAVIGATION */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 24px 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(9,9,10,0.96),
+    transparent
+  );
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.12em;
+  color: var(--off-white);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--fog);
+  text-decoration: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--green-lt);
+}
+
+/* HERO */
+
+#hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  filter: brightness(0.35);
+  animation: slowZoom 18s ease-in-out infinite alternate;
+}
+
+.hero-img-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(9,9,10,0.8),
+      rgba(9,9,10,0.3)
+    );
+}
+
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(70px, 12vw, 160px);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  color: var(--off-white);
+}
+
+.hero-title span {
+  color: var(--green-lt);
+}
+
+.hero-sub {
+  margin-top: 24px;
+  max-width: 720px;
+
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--fog);
+
+  padding: 0 20px;
+}
+
+/* BUTTONS */
+
+.hero-nav {
+  margin-top: 42px;
+
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  padding: 14px 28px;
+
+  border: 1px solid rgba(90,148,104,0.2);
+
+  color: var(--fog);
+  text-decoration: none;
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  color: var(--green-lt);
+  border-color: var(--green);
+  box-shadow: var(--glow-sm);
+}
+
+/* SECTION STYLES */
+
+section {
+  padding: 120px 80px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+.section-label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: var(--green);
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 6vw, 76px);
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.section-title em {
+  font-style: normal;
+  color: var(--green-lt);
+}
+
+/* CARDS */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+  gap: 28px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 500px;
+
+  background: var(--surface);
+
+  text-decoration: none;
+
+  border: 1px solid rgba(90,148,104,0.08);
+
+  transition: 0.4s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  filter: brightness(0.5);
+
+  transition: 0.5s;
+}
+
+.card:hover .card-img {
+  transform: scale(1.05);
+  filter: brightness(0.65);
+}
+
+.card-img-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(9,9,10,0.95),
+      rgba(9,9,10,0.2)
+    );
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+
+  padding: 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  height: 100%;
+}
+
+.card-num {
+  color: var(--green);
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 54px;
+  line-height: 0.95;
+
+  color: var(--off-white);
+
+  margin-bottom: 20px;
+}
+
+.card-title em {
+  font-style: normal;
+  color: var(--green-lt);
+}
+
+.card-desc {
+  color: var(--fog);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.card-link {
+  color: var(--green-lt);
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* TERMINAL */
+
+.terminal-intro {
+  max-width: 900px;
+  margin: 0 auto;
+
+  background: rgba(90,148,104,0.03);
+
+  border-left: 2px solid var(--green);
+
+  padding: 32px;
+}
+
+.terminal-intro p {
+  font-family: 'Share Tech Mono', monospace;
+  line-height: 2;
+  color: var(--fog);
+}
+
+.t-green {
+  color: var(--green-lt);
+}
+
+.t-warn {
+  color: #b3a05c;
+}
+
+.t-dim {
+  opacity: 0.4;
+}
+
+/* QUOTE */
+
+#quote-section {
+  text-align: center;
+}
+
+.big-quote {
+  max-width: 900px;
+  margin: auto;
+
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(34px, 5vw, 62px);
+  line-height: 1.3;
+
+  color: var(--off-white);
+}
+
+.big-quote em {
+  font-style: normal;
+  color: var(--green-lt);
+}
+
+.quote-attr {
+  margin-top: 24px;
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  color: var(--fog);
+}
+
+/* FOOTER */
+
+footer {
+  padding: 48px 56px;
+
+  border-top: 1px solid rgba(90,148,104,0.08);
+
+  text-align: center;
+}
+
+footer p {
+  margin: 10px 0;
+
+  color: var(--fog);
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+footer a {
+  color: var(--fog);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--green-lt);
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+  nav {
+    padding: 20px;
+  }
+
+  section {
+    padding: 90px 24px;
+  }
+
+  .nav-links {
+    gap: 14px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 700px) {
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 72px;
+  }
+
+  .card-title {
+    font-size: 42px;
+  }
+}
+
 /* ============================================================
    ECHOES OF EARTH — style.css  [UPDATED FONTS & COLOURS]
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
 
 :root {
   --black:      #09090a;
@@ -593,4 +1066,3 @@ footer a:hover { color: var(--green-lt); }
       .scroll-cue-tour{right:24px;bottom:28px;}
       #stop-epilogue{padding:80px 24px;}
     }
-  
