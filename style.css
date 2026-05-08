@@ -1066,3 +1066,93 @@ footer a:hover { color: var(--green-lt); }
       .scroll-cue-tour{right:24px;bottom:28px;}
       #stop-epilogue{padding:80px 24px;}
     }
+
+    .hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+
+  color: var(--green-lt);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: var(--glow-sm);
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  z-index: 5;
+}
+
+.scroll-cue span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+
+  color: var(--fog);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+
+  background: linear-gradient(
+    to bottom,
+    var(--green),
+    transparent
+  );
+
+  animation: scrollPulse 2s infinite;
+}
+
+@keyframes scrollPulse {
+  0% {
+    opacity: 0.3;
+    transform: scaleY(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: scaleY(0.8);
+  }
+}
+
+.intro-lead {
+  text-align: center;
+  margin-top: 20px;
+
+  font-size: 20px;
+  color: var(--pale);
+
+  line-height: 1.8;
+}
+
+.intro-lead em {
+  color: var(--green-lt);
+  font-style: normal;
+}
