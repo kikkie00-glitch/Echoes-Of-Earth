@@ -944,20 +944,6 @@ footer a:hover { color: var(--green-lt); }
     @media(max-width:600px){ .chapters-nav-grid{grid-template-columns:1fr;} }
  
 
-    
-    /* ── Tour progress dots ── */
-    .tour-progress {
-      position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
-      z-index: 500;
-    }
-    .tour-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--muted); border: 1px solid var(--muted);
-      transition: background 0.4s, transform 0.4s, box-shadow 0.4s;
-      cursor: pointer;
-    }
-    .tour-dot.active { background: var(--green); transform: scale(1.6); box-shadow: var(--glow-sm); }
 
     /* ── Location HUD ── */
     .location-hud {
