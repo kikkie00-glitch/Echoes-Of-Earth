@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
 
-background var(--black);
+
 :root {
   --black: #09090a;
   --deep: #0d0d0f;
@@ -435,41 +435,6 @@ footer a:hover {
   color: var(--green-lt);
 }
 
-/* MOBILE */
-
-@media (max-width: 900px) {
-
-  nav {
-    padding: 20px;
-  }
-
-  section {
-    padding: 90px 24px;
-  }
-
-  .nav-links {
-    gap: 14px;
-  }
-
-  .hero-sub {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 700px) {
-
-  .nav-links {
-    display: none;
-  }
-
-  .hero-title {
-    font-size: 72px;
-  }
-
-  .card-title {
-    font-size: 42px;
-  }
-}
 
 /* ============================================================
    ECHOES OF EARTH — style.css  [UPDATED FONTS & COLOURS]
@@ -1144,49 +1109,3 @@ footer a:hover { color: var(--green-lt); }
 }
 
 
-/* =========================
-   MOBILE NAVBAR
-========================= */
-
-@media (max-width: 900px) {
-
-  nav {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-  }
-
-  .nav-logo {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-
-  .nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-
-    padding: 0;
-    margin: 0;
-
-    width: 100%;
-  }
-
-  .nav-links li {
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.8rem;
-    padding: 8px 14px;
-
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.03);
-
-    border-radius: 4px;
-
-    display: block;
-  }
-}
