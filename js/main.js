@@ -72,11 +72,10 @@ spawnParticles('particles');
 })();
 
 
+/* ── MOBILE MENU ── */
 
- /* ── MOBILE MENU ── */
-
-const menuToggle = document.getElementById('menu-toggle');
-const navLinks = document.getElementById('nav-links');
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
 
 if(menuToggle && navLinks){
 
@@ -88,7 +87,6 @@ if(menuToggle && navLinks){
   });
 
 }
-
     const stops   = document.querySelectorAll('[data-stop]');
     const dots    = document.querySelectorAll('.tour-dot');
     const hud     = document.getElementById('locationHud');
