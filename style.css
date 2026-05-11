@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
 
-background: var(--black);
+background var(--black);
 :root {
   --black: #09090a;
   --deep: #0d0d0f;
@@ -1141,4 +1141,34 @@ footer a:hover { color: var(--green-lt); }
 .intro-lead em {
   color: var(--green-lt);
   font-style: normal;
+}
+
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+        border: 1px solid #2c2c2c;
+        background: rgba(255,255,255,0.03);
+        border-radius: 4px;
+    }
 }
