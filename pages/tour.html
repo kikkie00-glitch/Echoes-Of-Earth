@@ -226,11 +226,11 @@
       <p class="epilogue-attr">— Echoes of Earth Field Survey, Year 120</p>
       <div class="epilogue-links">
         <a href="../index.html"  class="epilogue-link">Home</a>
-        <a href="urban.html"    class="epilogue-link">Urban Decay</a>
-        <a href="nature.html"   class="epilogue-link">Nature Reclaims</a>
-        <a href="tech.html"     class="epilogue-link">Tech Decay</a>
-        <a href="timeline.html" class="epilogue-link">Timeline</a>
-        <a href="about.html"    class="epilogue-link">About</a>
+        <a href="pages/urban.html"    class="epilogue-link">Urban Decay</a>
+        <a href="pages/nature.html"   class="epilogue-link">Nature Reclaims</a>
+        <a href="pages/tech.html"     class="epilogue-link">Tech Decay</a>
+        <a href="pages/timeline.html" class="epilogue-link">Timeline</a>
+        <a href="pages/about.html"    class="epilogue-link">About</a>
       </div>
     </div>
   </section>
@@ -242,46 +242,7 @@
   </footer>
 
   <script src="../js/main.js"></script>
-  <script>
-    const stops   = document.querySelectorAll('[data-stop]');
-    const dots    = document.querySelectorAll('.tour-dot');
-    const hud     = document.getElementById('locationHud');
-    const hudName = document.getElementById('hudName');
-    const hudSub  = document.getElementById('hudSub');
-    const scrollCue = document.getElementById('scrollCue');
-    let lastStop = -1;
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const idx = parseInt(dot.dataset.stop);
-        const target = document.querySelector(`[data-stop="${idx}"]`);
-        if (target) target.scrollIntoView({ behavior:'smooth' });
-      });
-    });
-
-    const tourObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const el   = e.target;
-        const stop = parseInt(el.dataset.stop);
-        if (stop === lastStop) return;
-        lastStop = stop;
-        dots.forEach(d => d.classList.remove('active'));
-        if (dots[stop]) dots[stop].classList.add('active');
-        const name = el.dataset.name;
-        const sub  = el.dataset.sub;
-        if (name && stop > 0) {
-          hudName.textContent = name;
-          hudSub.textContent  = sub || '';
-          hud.classList.add('visible');
-        } else {
-          hud.classList.remove('visible');
-        }
-        if (stop > 0) scrollCue.classList.add('hidden');
-      });
-    }, { threshold: 0.4 });
-
-    stops.forEach(s => tourObs.observe(s));
-  </script>
+  
+  
 </body>
 </html>

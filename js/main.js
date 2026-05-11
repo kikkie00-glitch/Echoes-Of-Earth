@@ -88,3 +88,43 @@ if(menuToggle && navLinks){
   });
 
 }
+
+    const stops   = document.querySelectorAll('[data-stop]');
+    const dots    = document.querySelectorAll('.tour-dot');
+    const hud     = document.getElementById('locationHud');
+    const hudName = document.getElementById('hudName');
+    const hudSub  = document.getElementById('hudSub');
+    const scrollCue = document.getElementById('scrollCue');
+    let lastStop = -1;
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const idx = parseInt(dot.dataset.stop);
+        const target = document.querySelector(`[data-stop="${idx}"]`);
+        if (target) target.scrollIntoView({ behavior:'smooth' });
+      });
+    });
+
+    const tourObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el   = e.target;
+        const stop = parseInt(el.dataset.stop);
+        if (stop === lastStop) return;
+        lastStop = stop;
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[stop]) dots[stop].classList.add('active');
+        const name = el.dataset.name;
+        const sub  = el.dataset.sub;
+        if (name && stop > 0) {
+          hudName.textContent = name;
+          hudSub.textContent  = sub || '';
+          hud.classList.add('visible');
+        } else {
+          hud.classList.remove('visible');
+        }
+        if (stop > 0) scrollCue.classList.add('hidden');
+      });
+    }, { threshold: 0.4 });
+
+    stops.forEach(s => tourObs.observe(s));
