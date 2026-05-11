@@ -100,6 +100,72 @@ nav {
   overflow: hidden;
 }
 
+/* MOBILE MENU BUTTON */
+
+.menu-toggle {
+  display: none;
+
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  flex-direction: column;
+  gap: 6px;
+
+  z-index: 2000;
+}
+
+.menu-toggle span {
+  width: 26px;
+  height: 2px;
+
+  background: var(--green-lt);
+
+  transition: 0.3s;
+}
+
+/* MOBILE NAV */
+
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+
+    top: 0;
+    right: -100%;
+
+    width: 100%;
+    height: 100vh;
+
+    background:
+      rgba(9,9,10,0.96);
+
+    backdrop-filter: blur(12px);
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 40px;
+
+    transition: 0.4s ease;
+
+    z-index: 1500;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    letter-spacing: 0.3em;
+  }
+}
 .hero-img-wrap {
   position: absolute;
   inset: 0;

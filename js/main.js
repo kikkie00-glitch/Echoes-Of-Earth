@@ -70,3 +70,12 @@ spawnParticles('particles');
     if(a.getAttribute('href').split('/').pop()===path) a.classList.add('active');
   });
 })();
+
+
+
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
