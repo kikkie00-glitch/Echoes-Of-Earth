@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Development Log — Echoes of Earth</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+
+    /* ── Page intro ── */
+    .page-intro {
+      padding: 180px 80px 80px;
+      max-width: 900px;
+    }
+    .page-intro-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 22px;
+      display: flex; align-items: center; gap: 14px;
+      opacity: 0; animation: fadeUp 1s ease 0.2s forwards;
+    }
+    .page-intro-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--green); }
+    .page-intro h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 9vw, 120px);
+      line-height: 0.9; letter-spacing: 0.04em;
+      color: var(--pale); margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 1s ease 0.35s forwards;
+    }
+    .page-intro h1 em { font-style: normal; color: var(--green-lt); display: block; }
+    .page-intro p {
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px; color: var(--fog); line-height: 1.85;
+      max-width: 560px;
+      opacity: 0; animation: fadeUp 1s ease 0.5s forwards;
+    }
+
+    /* ── Tab navigation ── */
+    .devlog-tabs {
+      position: sticky; top: 72px; z-index: 100;
+      background: rgba(9,9,10,0.96);
+      border-bottom: 1px solid rgba(90,148,104,0.1);
+      padding: 0 80px;
+      display: flex; gap: 0;
+    }
+    .devlog-tab {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--fog); padding: 18px 28px;
+      cursor: pointer; border: none; background: none;
+      position: relative; transition: color 0.25s;
+      border-bottom: 2px solid transparent;
+    }
+    .devlog-tab:hover { color: var(--pale); }
+    .devlog-tab.active {
+      color: var(--green-lt);
+      border-bottom: 2px solid var(--green);
+    }
+
+    /* ── Section panels ── */
+    .devlog-panel { display: none; padding: 80px; max-width: 1200px; margin: 0 auto; }
+    .devlog-panel.active { display: block; }
+
+    /* ── Shared section header ── */
+    .panel-header { margin-bottom: 56px; }
+    .panel-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 68px);
+      letter-spacing: 0.05em; color: var(--pale); line-height: 1;
+      margin-bottom: 12px;
+    }
+    .panel-header h2 em { font-style: normal; color: var(--green-lt); }
+    .panel-header p {
+      font-family: 'Barlow', sans-serif;
+      font-size: 15px; color: var(--fog); line-height: 1.8; max-width: 600px;
+    }
+
+    /* ── PROPOSAL section ── */
+    .proposal-card {
+      background: var(--surface);
+      border: 1px solid rgba(90,148,104,0.1);
+      padding: 48px;
+      margin-bottom: 24px;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .proposal-card:hover { border-color: rgba(90,148,104,0.25); }
+    .proposal-card-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 16px; display: block;
+    }
+    .proposal-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; letter-spacing: 0.05em; color: var(--pale);
+      margin-bottom: 16px;
+    }
+    .proposal-card p, .proposal-card ul {
+      font-family: 'Barlow', sans-serif;
+      font-size: 15px; color: var(--fog); line-height: 1.85;
+    }
+    .proposal-card ul { padding-left: 20px; margin-top: 10px; }
+    .proposal-card ul li { margin-bottom: 8px; }
+
+    /* ── RESEARCH section ── */
+    .research-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    .research-entry {
+      background: var(--surface);
+      border: 1px solid rgba(90,148,104,0.1);
+      padding: 32px;
+      transition: border-color 0.3s;
+    }
+    .research-entry:hover { border-color: rgba(90,148,104,0.25); }
+    .research-entry-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 12px; display: block;
+    }
+    .research-entry h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 0.04em; color: var(--pale);
+      margin-bottom: 10px;
+    }
+    .research-entry p {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px; color: var(--fog); line-height: 1.8;
+    }
+    .research-entry .research-type {
+      display: inline-block; margin-top: 14px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+      padding: 4px 10px; border: 1px solid rgba(90,148,104,0.2);
+      color: var(--green);
+    }
+
+    /* ── Add entry button ── */
+    .add-btn {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--fog); padding: 16px 24px; margin-top: 20px;
+      border: 1px dashed rgba(90,148,104,0.2);
+      background: none; cursor: pointer; transition: all 0.25s;
+      width: 100%;
+      justify-content: center;
+    }
+    .add-btn:hover { color: var(--green-lt); border-color: var(--green); }
+    .add-btn-icon { font-size: 20px; line-height: 1; }
+
+    /* ── MOODBOARD section ── */
+    .moodboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 220px;
+      gap: 8px;
+    }
+    .moodboard-cell {
+      background: var(--surface);
+      border: 1px solid rgba(90,148,104,0.1);
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s;
+      cursor: pointer;
+    }
+    .moodboard-cell:first-child { grid-column: span 2; grid-row: span 2; }
+    .moodboard-cell:hover { border-color: rgba(90,148,104,0.3); }
+    .moodboard-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: brightness(0.75) saturate(0.8);
+      transition: filter 0.4s, transform 0.5s;
+    }
+    .moodboard-cell:hover img { filter: brightness(0.9) saturate(0.9); transform: scale(1.03); }
+    .moodboard-cell-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 12px 14px;
+      background: linear-gradient(to top, rgba(9,9,10,0.85), transparent);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--fog);
+      transform: translateY(100%); transition: transform 0.3s;
+    }
+    .moodboard-cell:hover .moodboard-cell-label { transform: translateY(0); }
+
+    /* Empty moodboard slot */
+    .moodboard-empty {
+      background: var(--surface);
+      border: 1px dashed rgba(90,148,104,0.15);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      cursor: pointer; transition: border-color 0.3s;
+    }
+    .moodboard-empty:hover { border-color: rgba(90,148,104,0.35); }
+    .moodboard-empty span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--fog);
+    }
+    .moodboard-empty-icon { font-size: 28px; color: var(--muted); }
+
+    .moodboard-note {
+      margin-top: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--fog); line-height: 1.7;
+      padding: 16px 20px;
+      border-left: 2px solid rgba(90,148,104,0.2);
+      background: rgba(90,148,104,0.02);
+    }
+
+    /* ── MEDIA section ── */
+    .media-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .media-card {
+      background: var(--surface);
+      border: 1px solid rgba(90,148,104,0.1);
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .media-card:hover { border-color: rgba(90,148,104,0.25); }
+    .media-thumb {
+      width: 100%; aspect-ratio: 16/10;
+      background: var(--raised);
+      position: relative; overflow: hidden;
+    }
+    .media-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.7) saturate(0.7);
+      transition: filter 0.4s, transform 0.5s;
+    }
+    .media-card:hover .media-thumb img { filter: brightness(0.85) saturate(0.8); transform: scale(1.03); }
+    .media-thumb-empty {
+      width: 100%; aspect-ratio: 16/10;
+      background: var(--raised);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px; cursor: pointer;
+    }
+    .media-thumb-empty span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);
+    }
+    .media-thumb-icon { font-size: 32px; color: var(--muted); }
+    .media-info { padding: 20px 22px; }
+    .media-type {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 8px; display: block;
+    }
+    .media-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px; letter-spacing: 0.04em; color: var(--pale);
+      margin-bottom: 8px;
+    }
+    .media-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px; color: var(--fog); line-height: 1.75;
+    }
+
+    /* ── How to use box ── */
+    .how-to {
+      background: rgba(90,148,104,0.04);
+      border: 1px solid rgba(90,148,104,0.12);
+      border-left: 2px solid var(--green);
+      padding: 24px 28px; margin-bottom: 40px;
+    }
+    .how-to h4 {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 10px;
+    }
+    .how-to p {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px; color: var(--fog); line-height: 1.8;
+    }
+    .how-to code {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; color: var(--green-lt);
+      background: rgba(90,148,104,0.08);
+      padding: 1px 6px; border-radius: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .page-intro { padding: 140px 24px 60px; }
+      .devlog-tabs { padding: 0 24px; overflow-x: auto; }
+      .devlog-panel { padding: 48px 24px; }
+      .research-grid { grid-template-columns: 1fr; }
+      .moodboard-grid { grid-template-columns: repeat(2, 1fr); }
+      .moodboard-cell:first-child { grid-column: span 2; }
+      .media-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">Echoes of Earth</a>
+    <ul class="nav-links">
+      <li><a href="urban.html">Urban</a></li>
+      <li><a href="nature.html">Nature</a></li>
+      <li><a href="tech.html">Technology</a></li>
+      <li><a href="timeline.html">Timeline</a></li>
+      <li><a href="tour.html">Virtual Tour</a></li>
+      <li><a href="devlog.html">Dev Log</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Page Intro ── -->
+  <div class="page-intro">
+    <p class="page-intro-label">Final Major Project</p>
+    <h1>Development<br><em>Log</em></h1>
+    <p>A record of the project process — from initial proposal through research, visual references, and media collected along the way.</p>
+  </div>
+
+  <div class="warning-stripe"></div>
+
+  <!-- ── Tab Bar ── -->
+  <div class="devlog-tabs">
+    <button class="devlog-tab active" onclick="switchPanel('proposal')">Proposal</button>
+    <button class="devlog-tab" onclick="switchPanel('research')">Research</button>
+    <button class="devlog-tab" onclick="switchPanel('moodboard')">Moodboard</button>
+    <button class="devlog-tab" onclick="switchPanel('media')">Media</button>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PROPOSAL PANEL
+  ══════════════════════════════════ -->
+  <div class="devlog-panel active" id="panel-proposal">
+
+    <div class="panel-header reveal">
+      <h2>Project <em>Proposal</em></h2>
+      <p>The initial proposal outlining the concept, aims, outcomes, and tools for Echoes of Earth.</p>
+    </div>
+
+    <!-- Project Overview -->
+    <div class="proposal-card reveal">
+      <span class="proposal-card-label">01 — Project Overview</span>
+      <h3>Rationale</h3>
+      <p>THIS YEAR I HAVE developed significantly as a game's development student. When I first started the course, I had no experience using Unreal Engine 5, Unity, or version control platforms like GitHub. I also had very limited understanding of programming and development workflows. Throughout the year, I have learned how to use game engines to build playable prototypes, create level blockouts, and implement mechanics using Blueprint systems. I have also gained knowledge in web development and basic coding, which has strengthened my problem-solving skills and technical confidence. 
+SO FAR, I HAVE LEARNED that game development is not just about ideas, but about structure, planning, and realistic scope management. My confidence with development tools has improved, and I now feel capable of independently planning and producing a complete project. These skills directly influence my Final Major Project, where I will apply everything, I have learned to create an action-based game exploring the theme of decay.
+             </p>
+    </div>
+
+    <!-- Aims -->
+    <div class="proposal-card reveal">
+      <span class="proposal-card-label">02 — Aims & Objectives</span>
+      <h3>What I Set Out to Achieve</h3>
+      <ul>
+        <li>Create a visually engaging, multi-page website demonstrating how structures, technology, and environments decay over time.</li>
+        <li>Guide users through different sections representing stages of decay — urban, nature, and technology.</li>
+        <li>Research examples of media that use decay as a theme (The Last of Us, Metro Exodus) to influence the visual style.</li>
+        <li>Build the site using HTML, CSS, and JavaScript in Visual Studio Code.</li>
+        <li>Document the process through a development blog and practical files.</li>
+      </ul>
+    </div>
+
+    <!-- Intended Outcome -->
+    <div class="proposal-card reveal">
+      <span class="proposal-card-label">03 — Intended Outcome</span>
+      <h3>Final Deliverables</h3>
+      <ul>
+        <li>A functional multi-page website with at least 5 pages.</li>
+        <li>A virtual tour page allowing cinematic scroll through a decayed city.</li>
+        <li>Atmospheric imagery sourced and placed across all pages.</li>
+        <li>A development log documenting the process.</li>
+        <li>Completed within the allocated FMP timeframe.</li>
+      </ul>
+    </div>
+
+    <!-- Tools -->
+    <div class="proposal-card reveal">
+      <span class="proposal-card-label">04 — Tools & Technologies</span>
+      <h3>How I Will Build It</h3>
+      <ul>
+        <li><strong>HTML</strong> — page structure and content.</li>
+        <li><strong>CSS</strong> — styling, layout, animations, and visual theme.</li>
+        <li><strong>JavaScript</strong> — interactivity, scroll effects, and cursor.</li>
+        <li><strong>Visual Studio Code</strong> — development environment.</li>
+        <li><strong>Unsplash / Pexels / AI generation</strong> — sourcing imagery.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       RESEARCH PANEL
+  ══════════════════════════════════ -->
+  <div class="devlog-panel" id="panel-research">
+
+    <div class="panel-header reveal">
+      <h2>Research & <em>References</em></h2>
+      <p>Media, sources, and real-world examples that influenced the visual style and content of Echoes of Earth.</p>
+    </div>
+
+    <div class="how-to">
+      <h4>How to add more research entries</h4>
+      <p>Copy one of the <code>.research-entry</code> blocks below and paste it inside the <code>.research-grid</code> div. Update the title, description, and type tag to match your new source.</p>
+    </div>
+
+    <div class="research-grid">
+
+      <div class="research-entry reveal">
+        <span class="research-entry-num">01</span>
+        <h3>The Last of Us</h3>
+        <p>Naughty Dog's 2013 game set the benchmark for environmental decay storytelling. Overgrown American cities with vines threading through hotel lobbies and rusted skylines directly influenced the colour palette and atmosphere of this project.</p>
+        <span class="research-type">Video Game</span>
+      </div>
+
+      <div class="research-entry reveal reveal-delay-1">
+        <span class="research-entry-num">02</span>
+        <h3>Metro Exodus</h3>
+        <p>4A Games' 2019 sequel traces the ruins of post-nuclear Russia. The approach to technological decay — machinery outlasting its usefulness before being consumed by rust and vegetation — directly shaped the Tech Decay chapter.</p>
+        <span class="research-type">Video Game</span>
+      </div>
+
+      <div class="research-entry reveal">
+        <span class="research-entry-num">03</span>
+        <h3>Chernobyl Exclusion Zone</h3>
+        <p>Photographic documentation of Pripyat provided factual grounding for the timeline. The rate at which vegetation colonised apartment blocks — faster than expected — shaped the project's chronology of decay.</p>
+        <span class="research-type">Real World Reference</span>
+      </div>
+
+      <div class="research-entry reveal reveal-delay-1">
+        <span class="research-entry-num">04</span>
+        <h3>The World Without Us — Alan Weisman</h3>
+        <p>This non-fiction book provided the factual framework for the timeline page, detailing what would realistically happen to human infrastructure over timescales from years to millennia without human maintenance.</p>
+        <span class="research-type">Book</span>
+      </div>
+
+      <div class="research-entry reveal">
+        <span class="research-entry-num">05</span>
+        <h3>Horizon Zero Dawn</h3>
+        <p>Guerrilla Games' 2017 title visualised a world where nature has fully reclaimed human spaces over centuries — the end-state that the Echoes of Earth timeline points toward.</p>
+        <span class="research-type">Video Game</span>
+      </div>
+
+      <div class="research-entry reveal reveal-delay-1">
+        <span class="research-entry-num">06</span>
+        <h3>Add Your Own Research</h3>
+        <p>Replace this card with any additional research sources, articles, documentaries, or websites that influenced your project. Update the number, title, description and type tag.</p>
+        <span class="research-type">Your Type Here</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       MOODBOARD PANEL
+  ══════════════════════════════════ -->
+  <div class="devlog-panel" id="panel-moodboard">
+
+    <div class="panel-header reveal">
+      <h2>Visual <em>Moodboard</em></h2>
+      <p>A collection of visual references that shaped the aesthetic, colour palette, and atmosphere of the project.</p>
+    </div>
+
+    <div class="how-to">
+      <h4>How to add your moodboard images</h4>
+      <p>Save your reference images into the <code>images/</code> folder, then replace the <code>src</code> values below with your filenames (e.g. <code>../images/mood-1.jpg</code>). The first image spans 2 columns and 2 rows automatically.</p>
+    </div>
+
+    <div class="moodboard-grid reveal">
+
+      <!-- Slot 1 — large featured (spans 2x2) -->
+      <div class="moodboard-cell">
+        <img src="../images/urban-1.jpg" alt="Moodboard reference 1">
+        <div class="moodboard-cell-label">Urban decay atmosphere</div>
+      </div>
+
+      <!-- Slot 2 -->
+      <div class="moodboard-cell">
+        <img src="../images/nature-1.jpg" alt="Moodboard reference 2">
+        <div class="moodboard-cell-label">Nature reclaiming</div>
+      </div>
+
+      <!-- Slot 3 -->
+      <div class="moodboard-cell">
+        <img src="../images/tech-2.jpg" alt="Moodboard reference 3">
+        <div class="moodboard-cell-label">Rusted technology</div>
+      </div>
+
+      <!-- Slot 4 -->
+      <div class="moodboard-cell">
+        <img src="../images/nature-2.jpg" alt="Moodboard reference 4">
+        <div class="moodboard-cell-label">Water reclaiming city</div>
+      </div>
+
+      <!-- Slot 5 -->
+      <div class="moodboard-cell">
+        <img src="../images/urban-2.jpg" alt="Moodboard reference 5">
+        <div class="moodboard-cell-label">Overgrown street</div>
+      </div>
+
+      <!-- Slot 6 — empty, add your own -->
+      <div class="moodboard-empty">
+        <span class="moodboard-empty-icon">+</span>
+        <span>Add image</span>
+        <span>Replace src with your filename</span>
+      </div>
+
+      <!-- Slot 7 — empty -->
+      <div class="moodboard-empty">
+        <span class="moodboard-empty-icon">+</span>
+        <span>Add image</span>
+        <span>Replace src with your filename</span>
+      </div>
+
+      <!-- Slot 8 — empty -->
+      <div class="moodboard-empty">
+        <span class="moodboard-empty-icon">+</span>
+        <span>Add image</span>
+        <span>Replace src with your filename</span>
+      </div>
+
+    </div>
+
+    <div class="moodboard-note">
+      <strong>Colour palette notes:</strong> The project uses deep blacks (#09090a), muted greens (#5a9468 / #7dbf8e), and off-white text (#dde4dd). Imagery is desaturated and darkened to maintain atmosphere. Fonts are Bebas Neue (headings) and Barlow (body).
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       MEDIA PANEL
+  ══════════════════════════════════ -->
+  <div class="devlog-panel" id="panel-media">
+
+    <div class="panel-header reveal">
+      <h2>Media <em>Collection</em></h2>
+      <p>Images, screenshots, and visual assets gathered and created throughout the project development.</p>
+    </div>
+
+    <div class="how-to">
+      <h4>How to add media entries</h4>
+      <p>Save your screenshots or images into <code>images/</code>, then copy a <code>.media-card</code> block and update the <code>src</code>, type label, title, and description. Use the empty slots as a template.</p>
+    </div>
+
+    <div class="media-grid">
+
+      <!-- Entry 1 -->
+      <div class="media-card reveal">
+        <div class="media-thumb">
+          <img src="../images/urban-1.jpg" alt="Broken skyline reference">
+        </div>
+        <div class="media-info">
+          <span class="media-type">Reference Image</span>
+          <p class="media-title">Broken Skyline</p>
+          <p class="media-desc">Used as the Urban Decay chapter hero and scene 1. Sourced for its atmospheric framing of deteriorating towers.</p>
+        </div>
+      </div>
+
+      <!-- Entry 2 -->
+      <div class="media-card reveal reveal-delay-1">
+        <div class="media-thumb">
+          <img src="../images/nature-2.jpg" alt="River returning through ruins">
+        </div>
+        <div class="media-info">
+          <span class="media-type">Reference Image</span>
+          <p class="media-title">River Returning Through Ruins</p>
+          <p class="media-desc">Nature Reclaims scene 2. Shows a river cutting through an abandoned city — a key visual for the nature chapter narrative.</p>
+        </div>
+      </div>
+
+      <!-- Entry 3 -->
+      <div class="media-card reveal reveal-delay-2">
+        <div class="media-thumb">
+          <img src="../images/tech-1.jpg" alt="Abandoned server room">
+        </div>
+        <div class="media-info">
+          <span class="media-type">Reference Image</span>
+          <p class="media-title">Abandoned Server Room</p>
+          <p class="media-desc">Tech Decay chapter hero and scene 1. Vines growing through server racks perfectly captures the convergence of technology and nature decay.</p>
+        </div>
+      </div>
+
+      <!-- Empty slot 1 -->
+      <div class="media-card reveal">
+        <div class="media-thumb-empty">
+          <span class="media-thumb-icon">+</span>
+          <span>Add your image here</span>
+        </div>
+        <div class="media-info">
+          <span class="media-type">Your Type Here</span>
+          <p class="media-title">Your Title Here</p>
+          <p class="media-desc">Replace this card with your own media entry. Update the image src, type, title, and description.</p>
+        </div>
+      </div>
+
+      <!-- Empty slot 2 -->
+      <div class="media-card reveal reveal-delay-1">
+        <div class="media-thumb-empty">
+          <span class="media-thumb-icon">+</span>
+          <span>Add your image here</span>
+        </div>
+        <div class="media-info">
+          <span class="media-type">Your Type Here</span>
+          <p class="media-title">Your Title Here</p>
+          <p class="media-desc">Replace this card with your own media entry.</p>
+        </div>
+      </div>
+
+      <!-- Empty slot 3 -->
+      <div class="media-card reveal reveal-delay-2">
+        <div class="media-thumb-empty">
+          <span class="media-thumb-icon">+</span>
+          <span>Add your image here</span>
+        </div>
+        <div class="media-info">
+          <span class="media-type">Your Type Here</span>
+          <p class="media-title">Your Title Here</p>
+          <p class="media-desc">Replace this card with your own media entry.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>Echoes of Earth — Development Log</p>
+    <p>
+      <a href="../index.html">Home</a> &nbsp;·&nbsp;
+      <a href="about.html">About</a>
+    </p>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function switchPanel(id) {
+      // Update tabs
+      document.querySelectorAll('.devlog-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      // Update panels
+      document.querySelectorAll('.devlog-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      // Re-trigger reveal animations for newly shown panel
+      setTimeout(() => {
+        document.querySelectorAll('#panel-' + id + ' .reveal').forEach(el => {
+          el.classList.remove('visible');
+          setTimeout(() => el.classList.add('visible'), 50);
+        });
+      }, 10);
+    }
+  </script>
+
+</body>
+</html>
