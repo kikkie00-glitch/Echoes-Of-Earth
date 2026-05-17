@@ -383,6 +383,153 @@
   }
   .feedback-tag.positive { border-color: rgba(90,148,104,0.35); color: var(--green-lt); }
   .feedback-tag.improve  { border-color: rgba(160,120,60,0.35); color: #c4904a; }
+
+  /* ── Evaluation section ── */
+  .eval-block {
+    background: var(--surface);
+    border: 1px solid rgba(90,148,104,0.1);
+    padding: 40px 44px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  .eval-block:hover { border-color: rgba(90,148,104,0.25); }
+ 
+  .eval-block-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 14px;
+    display: block;
+  }
+ 
+  .eval-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    color: var(--pale);
+    margin-bottom: 16px;
+  }
+ 
+  .eval-block p {
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    color: var(--fog);
+    line-height: 1.88;
+    margin-bottom: 14px;
+  }
+  .eval-block p:last-of-type { margin-bottom: 0; }
+ 
+  /* Two column layout for strengths / weaknesses */
+  .eval-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+ 
+  .eval-col {
+    background: var(--surface);
+    border: 1px solid rgba(90,148,104,0.1);
+    padding: 32px 36px;
+    transition: border-color 0.3s;
+  }
+  .eval-col:hover { border-color: rgba(90,148,104,0.25); }
+ 
+  .eval-col-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: block;
+  }
+  .eval-col-label.positive { color: var(--green); }
+  .eval-col-label.improve  { color: #c4904a; }
+ 
+  .eval-col h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--pale);
+    margin-bottom: 14px;
+  }
+ 
+  .eval-list {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .eval-list li {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: var(--fog);
+    line-height: 1.75;
+    padding-left: 16px;
+    position: relative;
+  }
+  .eval-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+  }
+  .eval-list.improve li::before { color: #c4904a; }
+ 
+  /* Rating bar */
+  .eval-ratings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(90,148,104,0.08);
+    border: 1px solid rgba(90,148,104,0.08);
+    margin-bottom: 20px;
+  }
+  .eval-rating-cell {
+    background: var(--black);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .eval-rating-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fog);
+  }
+  .eval-rating-bar {
+    height: 3px;
+    background: var(--raised);
+    position: relative;
+    overflow: hidden;
+  }
+  .eval-rating-fill {
+    position: absolute;
+    top: 0; left: 0; height: 100%;
+    background: var(--green);
+  }
+  .eval-rating-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--green-lt);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+ 
+  @media (max-width: 900px) {
+    .eval-two-col { grid-template-columns: 1fr; }
+    .eval-ratings  { grid-template-columns: 1fr; }
+    .eval-block    { padding: 28px 24px; }
+    .eval-col      { padding: 24px; }
+  }
+ 
   </style>
 </head>
 <body>
@@ -420,6 +567,7 @@
     <button class="devlog-tab" onclick="switchPanel('moodboard')">Moodboard</button>
     <button class="devlog-tab" onclick="switchPanel('media')">Media</button>
     <button class="devlog-tab" onclick="switchPanel('feedback')">Feedback</button>
+    <button class="devlog-tab" onclick="switchPanel('evaluation')">Evaluation</button>
   </div>
 
   <!-- ══════════════════════════════════
@@ -658,45 +806,33 @@ The visual appearance of Chernobyl also influences my environmental design choic
         </div>
       </div>
 
-      <!-- Empty slot 1 -->
-      <div class="media-card reveal">
-        <div class="media-thumb-empty">
-          <span class="media-thumb-icon">+</span>
-          <span>Add your image here</span>
+      <!-- Entry 4 -->
+      <div class="media-card reveal reveal-delay-3">
+        <div class="media-thumb">
+          <span class="media-thumb">+</span>
+          <img src="../images/Building.png" alt="Unfinished Building">
         </div>
         <div class="media-info">
-          <span class="media-type">Your Type Here</span>
-          <p class="media-title">Your Title Here</p>
-          <p class="media-desc">Replace this card with your own media entry. Update the image src, type, title, and description.</p>
+          <span class="media-type">UE5 Screenshot</span>
+          <p class="media-title">Unfinished Building</p>
+          <p class="media-desc">Tried to make a building in Unreal Engine 5.</p>
         </div>
       </div>
 
-      <!-- Empty slot 2 -->
-      <div class="media-card reveal reveal-delay-1">
-        <div class="media-thumb-empty">
-          <span class="media-thumb-icon">+</span>
-          <span>Add your image here</span>
+      <!-- Entry 5 -->
+      <div class="media-card reveal reveal-delay-4">
+        <div class="media-thumb">
+          <span class="media-thumb">+</span>
+          <img src="../images/Landscape.png" alt="Landscape">
         </div>
         <div class="media-info">
-          <span class="media-type">Your Type Here</span>
-          <p class="media-title">Your Title Here</p>
-          <p class="media-desc">Replace this card with your own media entry.</p>
+          <span class="media-type">UE5 Screenshot</span>
+          <p class="media-title">Landscape</p>
+          <p class="media-desc">Made a landscape in Unreal Engine 5.</p>
         </div>
       </div>
 
-      <!-- Empty slot 3 -->
-      <div class="media-card reveal reveal-delay-2">
-        <div class="media-thumb-empty">
-          <span class="media-thumb-icon">+</span>
-          <span>Add your image here</span>
-        </div>
-        <div class="media-info">
-          <span class="media-type">Your Type Here</span>
-          <p class="media-title">Your Title Here</p>
-          <p class="media-desc">Replace this card with your own media entry.</p>
-        </div>
-      </div>
-
+      
     </div>
   </div>
 
@@ -773,8 +909,125 @@ The visual appearance of Chernobyl also influences my environmental design choic
 </div>
 <!-- End of feedback panel -->
 
+<div class="devlog-panel" id="panel-evaluation">
+ 
+  <div class="panel-header reveal">
+    <h2>Project <em>Evaluation</em></h2>
+    <p>A critical reflection on the final outcome — what worked, what could be improved, and what I would do differently.</p>
+  </div>
+ 
+  <!-- ── Overall Reflection ── -->
+  <div class="eval-block reveal">
+    <span class="eval-block-label">01 — Understanding the Project Requirements</span>
+    <h3>Project Brief and Requirements</h3>
+    <p>
+      My original project brief was to create an immersive post-apocalyptic
+    virtual tour called <em>Echoes of Earth</em> using Unreal Engine 5.
+    The aim was to create a realistic abandoned environment that explored
+    environmental decay, isolation, and nature reclaiming the world after
+    humanity disappeared. The project was intended to combine cinematic
+    visuals, storytelling, and interactivity to create an engaging
+    experience for users.
+    </p>
+    <p>
+      Throughout development, I had to work within several constraints,
+    including limited time, technical difficulties with Unreal Engine 5,
+    and my own skill level while learning advanced software. Because of
+    these challenges, I adapted the project into an interactive website
+    developed in Visual Studio Code using HTML, CSS, and JavaScript.
+    Before starting production, I analysed the project requirements by
+    reviewing the brief, researching similar projects, and creating
+    plans for the visual style, layout, and development process.
+    </p>
+  </div>
 
-  <footer>
+
+  <div class="eval-block reveal">
+
+  <span class="eval-block-label">02 — Research & Idea Development</span>
+
+  <h3>Research and Creative Inspiration</h3>
+
+  <p>
+    Research played an important role in shaping the final outcome of
+    Echoes of Earth. I researched post-apocalyptic games such as
+    <em>The Last of Us</em> and <em>Metro Exodus</em>, focusing on
+    environmental storytelling, abandoned architecture, lighting,
+    and atmospheric world design. I also explored cinematic websites,
+    concept art, and photography of urban decay to better understand
+    how visual elements could communicate emotion and narrative.
+  </p>
+
+  <p>
+    This research strongly influenced my design decisions, including the
+    dark colour palette, distressed visual style, typography, animations,
+    and environmental themes used throughout the website. I communicated
+    my ideas through sketches, mood boards, visual references, and early
+    website layouts before developing the final design. These planning
+    methods helped me maintain a consistent atmosphere and identity
+    across the entire project.
+  </p>
+
+</div>
+
+
+<div class="eval-block reveal">
+
+  <span class="eval-block-label">03 — Practical Skills & Development</span>
+
+  <h3>Technical Skills and Workflow</h3>
+
+  <p>
+    During development, I used a range of practical and technical skills
+    to create the project. These included HTML, CSS, and JavaScript within
+    Visual Studio Code to build the website structure, animations,
+    navigation system, and interactive elements. I also experimented with
+    Unreal Engine 5 during the early stages of development while planning
+    the original virtual tour concept.
+  </p>
+
+  <p>
+    To manage my workflow, I organised tasks into stages such as research,
+    planning, design, coding, and testing. I regularly reviewed my progress
+    and adapted the project when technical issues affected development.
+    Although I was unable to complete the Unreal Engine 5 version,
+    I successfully applied my web development skills to create a final
+    website that reflected the atmosphere and vision of the original idea.
+  </p>
+
+</div>
+
+<div class="eval-block reveal">
+
+  <span class="eval-block-label">04 — Final Evaluation</span>
+
+  <h3>Reflection on the Final Outcome</h3>
+
+  <p>
+    My final project was only partially successful because I was unable
+    to fully complete the Unreal Engine 5 virtual tour that I originally
+    planned. Due to time limitations and technical challenges, I instead
+    focused on creating the website version of the project in Visual
+    Studio Code. Although this changed the direction of the project,
+    the final outcome still successfully communicated the atmosphere,
+    themes, and visual identity of Echoes of Earth.
+  </p>
+
+  <p>
+    The strongest aspects of the project were the visual design,
+    environmental storytelling, and overall cinematic presentation.
+    However, some advanced interactive features and the full immersive
+    UE5 experience were not completed. If I had more time, I would
+    improve the responsiveness, add more interactive content, create
+    additional custom assets, and complete the Unreal Engine 5 virtual
+    environment to fully achieve my original vision.
+  </p>
+
+</div>
+<!-- End of evaluation panel -->
+ 
+
+<footer>
     <p>Echoes of Earth — Development Log</p>
     <p>
       <a href="../index.html">Home</a> &nbsp;·&nbsp;
